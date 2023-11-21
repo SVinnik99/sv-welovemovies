@@ -1,21 +1,14 @@
 if (process.env.USER) require("dotenv").config();
 const express = require("express");
+const cors = require("cors")
+const moviesRouter = require("./movies/movies.router")
 const app = express();
-const knex = require("./db/connection");
+
 
 app.use(express.json());
+app.use(cors())
 
-async function getMoviesFromTable() {
-  console.log("HELLO!------");
-  return knex("movies").select("*");
-}
 
-async function list(req, res) {
-  const data = await getMoviesFromTable();
-
-  res.json({ data });
-}
-
-app.get("/movies", list);
+app.use("/movies", moviesRouter);
 
 module.exports = app;
