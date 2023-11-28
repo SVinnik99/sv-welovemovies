@@ -1,7 +1,5 @@
 const service = require("./theaters.service");
 
-
-
 // Function to list theaters
 
 async function list(req, res, next) {

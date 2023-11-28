@@ -1,5 +1,5 @@
 const service = require("./movies.service")
-
+const asyncErrorBoundary = require("../errors/asyncErrorBoundary")
 
 // Validation functions
 
@@ -44,20 +44,29 @@ async function read(req, res, next) {
 
 // Display theaters currently showing movie (/movies/:movieId/theaters)
 
-async function listTheatersForMovie(req, res, next) {
-    //pull movieId from param
-    // await for service function
+async function listTheatersForMovie(req, res) {
 
     const { movieId } = req.params;
     const data = await service.listTheatersForMovie(movieId)
 
-    res.json({data})
+    res.json({ data })
 
+}
+
+// Display reviews related to a movie, with critic info
+
+async function listReviewsForMovie(req, res) {
+
+    const { movieId } = req.params;
+    const data = await service.listReviewsForMovies(movieId)
+
+    res.json({ data })
 }
 
 
 module.exports = {
     list,
-    read: [movieExists, read],
-    theaters: [movieExists, listTheatersForMovie]
+    read: [asyncErrorBoundary(movieExists), asyncErrorBoundary(read)],
+    theaters: [asyncErrorBoundary(movieExists), asyncErrorBoundary(listTheatersForMovie)],
+    reviews: [asyncErrorBoundary(movieExists), asyncErrorBoundary(listReviewsForMovie)]
 };
