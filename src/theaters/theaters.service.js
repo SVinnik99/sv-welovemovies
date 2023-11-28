@@ -1,6 +1,10 @@
 const knex = require("../db/connection");
 const reduceProperties = require("../utils/reduce-properties")
 
+
+// Adds an array titled "movies", with information about the specific
+// movies currently showing in that theater.
+
 const reduceMovies = reduceProperties("theater_id", {
   movie_id: ["movies", null, "movie_id"],
   title: ["movies", null, "title"],
@@ -10,6 +14,8 @@ const reduceMovies = reduceProperties("theater_id", {
   image_url: ["movies", null, "image_url"],
   is_showing: ["movies", null, "is_showing"],
 })
+
+// Lists all the theaters, the adds the movies array/ properties
 
 async function list() {
   return knex("theaters as t")

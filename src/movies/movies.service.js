@@ -1,10 +1,10 @@
 const knex = require("../db/connection")
 
 
-//function that joins the movies table with movies_theaters
-//returns the movies that are currently showing in theaters
+// Function that joins the movies table with movies_theaters
+// Returns the movies that are currently showing in theaters
 
-async function currentlyShowing() {
+function currentlyShowing() {
     return knex("movies as m")
         .join("movies_theaters as mt", "mt.movie_id", "m.movie_id")
         .distinct("m.movie_id")
@@ -14,25 +14,36 @@ async function currentlyShowing() {
 }
 
 
-// function to list all movies
+// List all movies
 
-async function list() {
+function list() {
 
     return knex("movies").select("*");
 
 }
 
-// function to list/read a specific movie
+// Read a specific movie
 
-async function read(movieId) {
+function read(movieId) {
     return knex("movies")
-    .select("*")
-    .where({ movie_id: movieId })
-    .first()
+        .select("*")
+        .where({ movie_id: movieId })
+        .first()
 }
+
+
+function listTheatersForMovie(movieId) {
+    return knex("theaters as t")
+        .join("movies_theaters as mt", "mt.theater_id", "t.theater_id")
+        .where({ "mt.movie_id": movieId, "mt.is_showing": true })
+        .select("t.*")
+}
+
+
 
 module.exports = {
     list,
     currentlyShowing,
-    read
+    read,
+    listTheatersForMovie
 };
