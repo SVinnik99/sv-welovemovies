@@ -3,7 +3,8 @@
 A project that allowed me to practice connecting a database using Knex
 Set up routes using express, and linked the routes to a completed front-end-project
 
-Deployed link : https://we-love-movies-backend-eblc.onrender.com/
+Front End : https://github.com/SVinnik99/starter-movie-front-end
+Deployed link of backend : https://we-love-movies-backend-eblc.onrender.com/
 
 Routes:
 
